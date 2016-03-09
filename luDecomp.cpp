@@ -87,7 +87,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
 		float factor = (matrix[i+1][j]/matrix[i][i]);
-		for(int j = 0; j < col; j++){
+		for(int j = 0; j < col-1; j++){
 			matrix[i+1][j] -= factor;
 		}
 	}
