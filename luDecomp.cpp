@@ -83,12 +83,14 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-/*void luDecomp(int row, int col, float **matrix){
+void luDecomp(int row, int col, float **matrix){
+	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
-		float factor = (matrix[i+1][j]/matrix[i][i]);
-		for(int j = 0; j < col-1; j++){
-			matrix[i+1][j] -= factor;
+		for(int j = i; j+1<col; j++){
+			float factor = (matrix[j+1][i] / matrix[i][i]);
+			for(int k=0; k<col; k++)
+				matrix[j+1][k] -= factor * matrix[i][k];
 		}
 	}
-}*/
+}

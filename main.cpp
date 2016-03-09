@@ -15,7 +15,7 @@ int main(){
 				{-2,-5,15}};*/
 	initMatrix(ROW, COL, myMatrix, 10);
 	printMatrix(ROW, COL, myMatrix);
-	partPivo(ROW, COL, myMatrix, 1);
+	luDecomp(ROW, COL, myMatrix);
 	printMatrix(ROW, COL, myMatrix);
 	destroyMatrix(ROW, myMatrix);
 	return 0;

@@ -43,7 +43,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol);
 
 //progressiveSub()
 
-//void luDecomp(int row, int col, float **matrix);
+void luDecomp(int row, int col, float **matrix);
 
 
 
