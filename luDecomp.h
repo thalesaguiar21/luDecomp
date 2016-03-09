@@ -9,13 +9,15 @@ void destroyMatrix(int row, float **matrix);
 
 void printMatrix(int row, int col, float **matrix);
 
+float abs(float number);
+
 void partPivo(int row, int col, float **matrix, int pivoCol);
 
 //regressiveSub()
 
 //progressiveSub()
 
-void luDecomp(int row, int col, float **matrix);
+//void luDecomp(int row, int col, float **matrix);
 
 
 

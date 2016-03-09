@@ -61,6 +61,13 @@ void printMatrix(int row, int col, float **matrix){
 	}
 }
 
+float abs(float number){
+	if(number < 0)
+		return -number;
+	else
+		return number;
+}
+
 void partPivo(int row, int col, float **matrix, int pivoCol){
 	cout << "\nExecutando o pivotamento parcial na coluna " << pivoCol + 1 <<endl;
 	float pivo = matrix[pivoCol][pivoCol];
@@ -75,7 +82,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-void luDecomp(int row, int col, float **matrix){
+/*void luDecomp(int row, int col, float **matrix){
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
 		float factor = (matrix[i+1][j]/matrix[i][i]);
@@ -83,4 +90,4 @@ void luDecomp(int row, int col, float **matrix){
 			matrix[i+1][j] -= factor;
 		}
 	}
-}
+}*/
