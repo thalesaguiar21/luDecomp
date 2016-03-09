@@ -3,6 +3,11 @@
 
 float ** makeMatrix(int row, int col);
 
+/*
+Option = 0 -> null matrix
+Option = 1 -> identity matrix
+Other case -> input a matrix line by line
+*/
 void initMatrix(int row, int col, float **matrix, float option = 0);
 
 void destroyMatrix(int row, float **matrix);

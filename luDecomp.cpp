@@ -72,7 +72,8 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	cout << "\nExecutando o pivotamento parcial na coluna " << pivoCol + 1 <<endl;
 	float pivo = matrix[pivoCol][pivoCol];
 	for(int i = pivoCol+1; i < row; i++){
-		if(matrix[i][pivoCol] > pivo){
+		if(abs(matrix[i][pivoCol]) > abs(pivo)){
+			pivo = matrix[i][pivoCol];
 			for(int j = 0; j < col; j++){
 				float aux = matrix[pivoCol][j];
 				matrix[pivoCol][j] = matrix[i][j];
