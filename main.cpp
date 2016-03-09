@@ -9,11 +9,7 @@ using std::endl;
 
 
 int main(){
-	float **myMatrix = makeMatrix(ROW, COL);
-	initMatrix(ROW, COL, myMatrix, 10);
-	printMatrix(ROW, COL, myMatrix);
-	partPivo(ROW, COL, myMatrix, 0);
-	printMatrix(ROW, COL, myMatrix);
-	destroyMatrix(ROW, myMatrix);
+	cout << abs(-10) <<endl;
+	cout << abs(10) <<endl;
 	return 0;
 }
