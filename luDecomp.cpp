@@ -89,8 +89,9 @@ void luDecomp(int row, int col, float **matrix){
 		partPivo(row, col, matrix, i);
 		for(int j = i; j+1<col; j++){
 			float factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k=0; k<col; k++)
+			for(int k=j; k<col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
+			matrix[j+1][i] = factor;
 		}
 	}
 }
