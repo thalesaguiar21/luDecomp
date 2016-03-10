@@ -1,4 +1,6 @@
 #include <iostream>
+#include <iomanip>
+#include <locale>
 #include "luDecomp.h"
 
 
@@ -55,7 +57,7 @@ void printMatrix(int row, int col, float **matrix){
 	cout << "\nA matrix é...\n";
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
-			cout << matrix[i][j] << "\t";
+			cout << std::setw(12) << matrix[i][j];
 		}
 		cout << "\n";
 	}
