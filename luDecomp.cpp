@@ -97,3 +97,20 @@ void luDecomp(int row, int col, float **matrix){
 		}
 	}
 }
+
+bool isSymetric(int row, int col, float **matrix){
+	cout << "\nVerificando a simetria da matriz...\n";
+	if(row != col) return false;
+	for(int i = 0; i < row; i++){
+		for(int j = 0; j < col; j++){
+			if(i != j){
+				if(matrix[i][j] != matrix[j][i]){
+					cout << "\nA matriz não é simétrica...\n";
+					return false;
+				}
+			}
+		}
+	}
+	cout << "\nA matriz é simétrica...\n";
+	return true;
+}

@@ -45,6 +45,11 @@ void partPivo(int row, int col, float **matrix, int pivoCol);
 
 void luDecomp(int row, int col, float **matrix);
 
+/*
+	Return true if the matrix is symetric, and false otherwise.
+*/
+bool isSymetric(int row, int col, float **matrix);
+
 
 
 #endif
