@@ -54,12 +54,37 @@ void destroyMatrix(int row, float **matrix){
 }
 
 void printMatrix(int row, int col, float **matrix){
+	if(row < 0 || col < 0){
+		cout << "\nAs dimensões da matriz devem ser positivas...\n";
+		return;
+	}
 	cout << "\nA matrix é...\n";
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
 			cout << std::setw(12) << matrix[i][j];
 		}
 		cout << "\n";
+	}
+}
+
+void printMatrix(int row, int col, float *matrix){
+	if(row < 0 || col < 0){
+		cout << "\nAs dimensões da matriz devem ser positivas...\n";
+		return;
+	}
+	cout << "\nA matrix dos termos independentes é...\n";
+	if(row == 0 && col > 0){
+		for(int j = 0; j < col; j++){
+			cout << std::setw(12) << matrix[j] << endl;
+		}
+	}
+	else if(row > 0 && col == 0){
+		for(int j = 0; j < col; j++){
+			cout << std::setw(12) << matrix[j];
+		}
+	}
+	else{
+		cout << "\nA matriz não é do tipo linha ou coluna...\n";
 	}
 }
 
@@ -85,14 +110,16 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-void luDecomp(int row, int col, float **matrix){
+void luDecomp(int row, int col, float **matrix, float *constantTerms){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
 		for(int j = i; j+1<col; j++){
 			float factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k=j; k<col; k++)
+			for(int k=j; k<col; k++){
 				matrix[j+1][k] -= factor * matrix[i][k];
+				constantTerms[j+1] -= factor * constantTerms[i];
+			}
 			matrix[j+1][i] = factor;
 		}
 	}

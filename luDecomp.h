@@ -28,6 +28,8 @@ void destroyMatrix(int row, float **matrix);
 void printMatrix(int row, int col, float **matrix);
 
 
+void printMatrix(int row, int col, float *matrix);
+
 /*
 	Return the absolute value of a float.
 */
@@ -43,7 +45,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol);
 
 //progressiveSub()
 
-void luDecomp(int row, int col, float **matrix);
+void luDecomp(int row, int col, float **matrix, float *constantTerms);
 
 /*
 	Return true if the matrix is symetric, and false otherwise.
