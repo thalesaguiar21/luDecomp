@@ -15,7 +15,8 @@ int main(){
 				{-2,-5,15}};*/
 	initMatrix(ROW, COL, myMatrix, 10);
 	printMatrix(ROW, COL, myMatrix);
-	luDecomp(ROW, COL, myMatrix);
+	//luDecomp(ROW, COL, myMatrix);
+	isSymetric(ROW, COL, myMatrix);
 	printMatrix(ROW, COL, myMatrix);
 	destroyMatrix(ROW, myMatrix);
 	return 0;
