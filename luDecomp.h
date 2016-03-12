@@ -45,7 +45,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol);
 
 //progressiveSub()
 
-void luDecomp(int row, int col, float **matrix, float *constantTerms);
+void luDecomp(int row, int col, float **matrix);
 
 /*
 	Return true if the matrix is symetric, and false otherwise.
