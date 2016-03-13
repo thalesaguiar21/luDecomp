@@ -41,11 +41,13 @@ float abs(float number);
 */
 void partPivo(int row, int col, float **matrix, int pivoCol);
 
-//regressiveSub()
+float * regressiveSub(int row, int col, float **matrix, float *constTerms);
 
 //progressiveSub()
 
-void luDecomp(int row, int col, float **matrix);
+void luDecomp(int row, int col, float **matrix, float *constTerms);
+
+float * fatLU(int row, int col, float **matrix, float *constTerms);
 
 /*
 	Return true if the matrix is symetric, and false otherwise.

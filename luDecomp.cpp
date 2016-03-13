@@ -110,7 +110,7 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-void luDecomp(int row, int col, float **matrix){
+void luDecomp(int row, int col, float **matrix, float *constTerms){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
@@ -119,8 +119,26 @@ void luDecomp(int row, int col, float **matrix){
 			for(int k=j; k<col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
 			matrix[j+1][i] = factor;
+			constTerms[j+1] -= factor * constTerms[i];
 		}
 	}
+}
+
+float * regressiveSub(int row, int col, float **matrix, float *constTerms){
+	float *result = new float[row];
+	result[row-1] = (float)(constTerms[col-1]/matrix[row-1][col-1]);
+	for(int i = row-1; i >= 0; i--){
+		float sum = 0;
+		for(int j = i+1; j <= col; j++)
+			sum += matrix[i][j] * result[j];
+		result[i] = (constTerms[i] - sum) / matrix[i][i];
+	}
+	return result;
+}
+
+float * fatLU(int row, int col, float **matrix, float *constTerms){
+	luDecomp(row, col, matrix, constTerms);
+	return regressiveSub(row, col, matrix, constTerms);
 }
 
 bool isSymetric(int row, int col, float **matrix){
