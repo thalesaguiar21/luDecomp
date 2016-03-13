@@ -45,6 +45,8 @@ float * regressiveSub(int row, int col, float **matrix, float *constTerms);
 
 //progressiveSub()
 
+void choleskyDecomp(int row,int col, float **matrix);
+
 void luDecomp(int row, int col, float **matrix, float *constTerms);
 
 float * fatLU(int row, int col, float **matrix, float *constTerms);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <locale>
+#include <math.h>
 #include "luDecomp.h"
 
 
@@ -124,6 +125,23 @@ void luDecomp(int row, int col, float **matrix, float *constTerms){
 	}
 }
 
+void choleskyDecomp(int row,int col, float **matrix){
+	//float **lMatrix = makeMatrix(row, col);
+	for(int k = 0; k < row; k++){
+		for(int i = 0; i < k-1; i++){
+			float sum = 0;
+			for(int j = 0;j < i-1; j++)
+				sum += matrix[i][j] * matrix[k][j];
+			matrix[k][i] = (matrix[k][i] - sum) / matrix[i][i];
+		}
+		float sum = 0;
+		for(int j = 0; j < k-1; k++){
+			sum += matrix[k][j] * matrix[k][j];
+		}
+		matrix[k][k] = sqrt(matrix[k][k] - sum);
+	}
+}
+
 float * regressiveSub(int row, int col, float **matrix, float *constTerms){
 	float *result = new float[row];
 	result[row-1] = (float)(constTerms[col-1]/matrix[row-1][col-1]);
@@ -134,11 +152,6 @@ float * regressiveSub(int row, int col, float **matrix, float *constTerms){
 		result[i] = (constTerms[i] - sum) / matrix[i][i];
 	}
 	return result;
-}
-
-float * fatLU(int row, int col, float **matrix, float *constTerms){
-	luDecomp(row, col, matrix, constTerms);
-	return regressiveSub(row, col, matrix, constTerms);
 }
 
 bool isSymetric(int row, int col, float **matrix){
@@ -159,4 +172,9 @@ bool isSymetric(int row, int col, float **matrix){
 	}
 	cout << "\nA matriz é simétrica...\n";
 	return true;
+}
+
+float * fatLU(int row, int col, float **matrix, float *constTerms){
+	luDecomp(row, col, matrix, constTerms);
+	return regressiveSub(row, col, matrix, constTerms);
 }
