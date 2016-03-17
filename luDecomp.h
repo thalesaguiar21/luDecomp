@@ -56,6 +56,17 @@ float * fatLU(int row, int col, float **matrix, float *constTerms);
 */
 bool isSymetric(int row, int col, float **matrix);
 
+double gausSeidel(int row,int col, float **matrix, float *x, float* b, double erro);
+
+/*
+	Make a copy of vector x on vector y (theys must have the same size).
+*/
+void copyVector( int row, float *x, float *y);
+
+/*
+	Calculate the norm of vector x.
+*/
+double norma(int row, float *x);
 
 
 #endif

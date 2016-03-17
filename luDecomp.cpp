@@ -135,7 +135,7 @@ void choleskyDecomp(int row,int col, float **matrix){
 			matrix[k][i] = (matrix[k][i] - sum) / matrix[i][i];
 		}
 		float sum = 0;
-		for(int j = 0; j < k-1; k++){
+		for(int j = 0; j < k-1; j++){
 			sum += matrix[k][j] * matrix[k][j];
 		}
 		matrix[k][k] = sqrt(matrix[k][k] - sum);
@@ -177,4 +177,52 @@ bool isSymetric(int row, int col, float **matrix){
 float * fatLU(int row, int col, float **matrix, float *constTerms){
 	luDecomp(row, col, matrix, constTerms);
 	return regressiveSub(row, col, matrix, constTerms);
+}
+
+void copyVector( int row, float *x, float *y){
+	for( int i(0) ; i<row ; i++ ){
+		y[i] = x[i];
+	}
+	return;
+}
+
+double norma(int row, float *x){
+	double acumulate(0);
+	for(int i(0) ; i<row ; i++){
+		acumulate += x[i]*x[i];
+	}
+	return sqrt(acumulate);
+}
+
+double gausSeidel(int row,int col, float **matrix, float *x, float* b, double erro){
+	double err=99999;
+	float *xAnterior = new float[col];
+	float *xs = new float[col];
+	copyVector(col, x, xs);
+	while( err>erro ){
+		copyVector(col, x, (float*)xAnterior);
+		for( int i(0) ; i<row ; i++ ){
+			float value(b[i]);
+			for( int j(0) ; j<i ; j++ ){
+				value -= matrix[i][j]*xs[j];
+			}
+			for( int j(i+1) ; j<col ; j++ ){
+				value -= matrix[i][j]*x[j];
+			}
+			xs[i] = value/matrix[i][i];
+			//std::cout << "X[" << i << "] = " << x[i] << std::endl;
+		}
+		copyVector(col, xs, x);
+		float test[col];
+		for( int j(0); j<col ; j++ ){
+			test[j] = x[j]-xAnterior[j];
+			//std::cout << "test[" << j << "] = " << x[j] << " - " << xAnterior[j] << " = " << test[j] << std::endl;
+		}
+		err = norma(col, test);
+		//std::cout << "ERRO = " << err << std::endl;
+	}
+	copyVector(col, (float*)xAnterior, x);
+	delete [] xAnterior;
+	delete [] xs;
+	return err;
 }
