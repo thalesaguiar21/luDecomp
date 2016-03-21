@@ -102,7 +102,7 @@ void luDecomp(int row, int col, double **matrix, double *constTerms){
 			double factor = (matrix[j+1][i] / matrix[i][i]);
 			for(int k= j; k < col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = factor;
+			matrix[j+1][i] = -factor;
 		}
 	}
 }
