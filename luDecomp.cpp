@@ -9,16 +9,16 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-float ** makeMatrix(int row, int col){
+double ** makeMatrix(int row, int col){
 	cout << "\nCriando uma nova matriz...\n";
-	float **newMatrix = new float*[row];
+	double **newMatrix = new double*[row];
 	for(int i = 0; i < row; i++){
-		newMatrix[i] = new float[col];
+		newMatrix[i] = new double[col];
 	}
 	return newMatrix;
 }
 
-void initMatrix(int row, int col, float **matrix, float option){
+void initMatrix(int row, int col, double **matrix, double option){
 	cout << "\nInicializando a matrix...\n";
 	if(option == 1){
 		for(int i = 0; i < row; i++){
@@ -47,14 +47,14 @@ void initMatrix(int row, int col, float **matrix, float option){
 	}
 }
 
-void destroyMatrix(int row, float **matrix){
+void destroyMatrix(int row, double **matrix){
 	cout << "\nDestruindo a matriz...\n";
 	for(int i = 0; i < row; i++)
 		delete []matrix[i];
 	delete matrix;
 }
 
-void printMatrix(int row, int col, float **matrix){
+void printMatrix(int row, int col, double **matrix){
 	if(row < 0 || col < 0){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
@@ -68,7 +68,7 @@ void printMatrix(int row, int col, float **matrix){
 	}
 }
 
-void printMatrix(int row, int col, float *matrix){
+void printMatrix(int row, int col, double *matrix){
 	if(row < 0 || col < 0){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
@@ -89,33 +89,33 @@ void printMatrix(int row, int col, float *matrix){
 	}
 }
 
-float * fatLU(int row, int col, float **matrix, float *constTerms){
+double * fatLU(int row, int col, double **matrix, double *constTerms){
 	luDecomp(row, col, matrix, constTerms);
-	float *result = PRsubstitution(row, col, matrix, constTerms);
+	double *result = PRsubstitution(row, col, matrix, constTerms);
 	return result;
 }
 
-void luDecomp(int row, int col, float **matrix, float *constTerms){
+void luDecomp(int row, int col, double **matrix, double *constTerms){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
-		for(int j = i; j+1<col; j++){
-			float factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k=j; k<col; k++)
+		for(int j = i; j+1 < col; j++){
+			double factor = (matrix[j+1][i] / matrix[i][i]);
+			for(int k= j; k < col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
 			matrix[j+1][i] = factor;
 		}
 	}
 }
 
-void partPivo(int row, int col, float **matrix, int pivoCol){
+void partPivo(int row, int col, double **matrix, int pivoCol){
 	cout << "\nExecutando o pivotamento parcial na coluna " << pivoCol + 1 <<endl;
-	float pivo = matrix[pivoCol][pivoCol];
+	double pivo = matrix[pivoCol][pivoCol];
 	for(int i = pivoCol+1; i < row; i++){
 		if(abs(matrix[i][pivoCol]) > abs(pivo)){
 			pivo = matrix[i][pivoCol];
 			for(int j = 0; j < col; j++){
-				float aux = matrix[pivoCol][j];
+				double aux = matrix[pivoCol][j];
 				matrix[pivoCol][j] = matrix[i][j];
 				matrix[i][j] = aux;
 			}
@@ -123,28 +123,28 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-float abs(float number){
+double abs(double number){
 	if(number < 0)
 		return -number;
 	else
 		return number;
 }
 
-float * PRsubstitution(int row, int col, float **matrix, float *constTerms){
-	float *result = new float[row];
+double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
+	double *result = new double[row];
 
 	cout << "\nExecutando a substituição progressiva...\n";
 	for(int i = 1; i < row; i++){
-		float sum = constTerms[i];
+		double sum = constTerms[i];
 		for(int j = 0; j < i-1; j++)
 			sum -= matrix[i][j] * constTerms[j];
 		constTerms[i] = sum;
 	}
 
 	cout << "\nExecutando a substituição regrssiva...\n";
-	result[row-1] = (float)(constTerms[col-1]/matrix[row-1][col-1]);
+	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
 	for(int i = row-1; i >= 0; i--){
-		float sum = 0;
+		double sum = 0;
 		for(int j = i+1; j < col; j++)
 			sum += matrix[i][j] * result[j];
 		result[i] = (constTerms[i] - sum) / matrix[i][i];
@@ -153,8 +153,8 @@ float * PRsubstitution(int row, int col, float **matrix, float *constTerms){
 	return result;
 }
 
-void choleskyDecomp(int row,int col, float **matrix, float *constTerms){
-	float *dMatrix = new float[row];
+void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
+	double *dMatrix = new double[row];
 
 	if(!isSymetric(row, col, matrix))
 		return;
@@ -183,7 +183,7 @@ void choleskyDecomp(int row,int col, float **matrix, float *constTerms){
 	delete []dMatrix;
 }
 
-bool isSymetric(int row, int col, float **matrix){
+bool isSymetric(int row, int col, double **matrix){
 	cout << "\nVerificando a simetria da matriz...\n";
 	if(row != col){
 		cout << "\nA matriz não é simétrica...\n";
@@ -203,14 +203,14 @@ bool isSymetric(int row, int col, float **matrix){
 	return true;
 }
 
-void copyVector( int row, float *x, float *y){
+void copyVector( int row, double *x, double *y){
 	for( int i(0) ; i<row ; i++ ){
 		y[i] = x[i];
 	}
 	return;
 }
 
-double norma(int row, float *x){
+double norma(int row, double *x){
 	double acumulate(0);
 	for(int i(0) ; i<row ; i++){
 		acumulate += x[i]*x[i];
@@ -218,15 +218,15 @@ double norma(int row, float *x){
 	return sqrt(acumulate);
 }
 
-double gausSeidel(int row,int col, float **matrix, float *x, float* b, double erro){
+double gausSeidel(int row,int col, double **matrix, double *x, double* b, double erro){
 	double err=99999;
-	float *xAnterior = new float[col];
-	float *xs = new float[col];
+	double *xAnterior = new double[col];
+	double *xs = new double[col];
 	copyVector(col, x, xs);
 	while( err>erro ){
-		copyVector(col, x, (float*)xAnterior);
+		copyVector(col, x, (double*)xAnterior);
 		for( int i(0) ; i<row ; i++ ){
-			float value(b[i]);
+			double value(b[i]);
 			for( int j(0) ; j<i ; j++ ){
 				value -= matrix[i][j]*xs[j];
 			}
@@ -237,7 +237,7 @@ double gausSeidel(int row,int col, float **matrix, float *x, float* b, double er
 			//std::cout << "X[" << i << "] = " << x[i] << std::endl;
 		}
 		copyVector(col, xs, x);
-		float test[col];
+		double test[col];
 		for( int j(0); j<col ; j++ ){
 			test[j] = x[j]-xAnterior[j];
 			//std::cout << "test[" << j << "] = " << x[j] << " - " << xAnterior[j] << " = " << test[j] << std::endl;
@@ -245,7 +245,7 @@ double gausSeidel(int row,int col, float **matrix, float *x, float* b, double er
 		err = norma(col, test);
 		//std::cout << "ERRO = " << err << std::endl;
 	}
-	copyVector(col, (float*)xAnterior, x);
+	copyVector(col, (double*)xAnterior, x);
 	delete [] xAnterior;
 	delete [] xs;
 	return err;

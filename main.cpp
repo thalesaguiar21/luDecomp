@@ -4,9 +4,9 @@
 #define ROW 3
 
 int main(){
-	float **myMatrix = makeMatrix(ROW, COL);
-	float *myConstTerms = new float[ROW];
-	float *result = new float[ROW];
+	double **myMatrix = makeMatrix(ROW, COL);
+	double *myConstTerms = new double[ROW];
+	double *result = new double[ROW];
 	
 	myMatrix[0][0] = 4;
 	myMatrix[0][1] = 1;
