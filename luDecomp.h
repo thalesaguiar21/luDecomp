@@ -38,6 +38,9 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms);
    The L matrix is stored under the main diagonal of **matrix.*/
 void luDecomp(int row, int col, double **matrix, double *constTerms);
 
+/* Make a LU decomposition with partial pivoting on the **matrix and *constTermas.
+   The L matrix is stored under the main diagonal of **matrix.*/
+void luDecompPivo(int row, int col, double **matrix, double *constTerms);
 
 /* Execute a progressive and regressive substitution with the **matrix and the *constTerms
    Note that *constTerms and **matrix must have the same number of lines.

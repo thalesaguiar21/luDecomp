@@ -62,7 +62,7 @@ void printMatrix(int row, int col, double **matrix){
 	cout << "\nA matrix é...\n";
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
-			cout << std::setw(12) << matrix[i][j];
+			cout << std::setw(18) << matrix[i][j];
 		}
 		cout << "\n";
 	}
@@ -76,12 +76,12 @@ void printMatrix(int row, int col, double *matrix){
 	cout << "\nA matriz dos termos independentes é...\n";
 	if(row == 0 && col > 0){
 		for(int j = 0; j < col; j++){
-			cout << std::setw(12) << matrix[j] << endl;
+			cout << std::setw(18) << matrix[j] << endl;
 		}
 	}
 	else if(row > 0 && col == 0){
 		for(int j = 0; j < col; j++){
-			cout << std::setw(12) << matrix[j];
+			cout << std::setw(18) << matrix[j];
 		}
 	}
 	else{
@@ -90,12 +90,24 @@ void printMatrix(int row, int col, double *matrix){
 }
 
 double * fatLU(int row, int col, double **matrix, double *constTerms){
-	luDecomp(row, col, matrix, constTerms);
+	luDecompPivo(row, col, matrix, constTerms);
 	double *result = PRsubstitution(row, col, matrix, constTerms);
 	return result;
 }
 
 void luDecomp(int row, int col, double **matrix, double *constTerms){
+	cout <<  "\nDecompondo a matriz em fatores LU...\n";
+	for(int i = 0; i+1 < row; i++){
+		for(int j = i; j+1 < col; j++){
+			double factor = (matrix[j+1][i] / matrix[i][i]);
+			for(int k= j; k < col; k++)
+				matrix[j+1][k] -= factor * matrix[i][k];
+			matrix[j+1][i] = factor;
+		}
+	}
+}
+
+void luDecompPivo(int row, int col, double **matrix, double *constTerms){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int i = 0; i+1 < row; i++){
 		partPivo(row, col, matrix, i);
@@ -113,6 +125,7 @@ void partPivo(int row, int col, double **matrix, int pivoCol){
 	double pivo = matrix[pivoCol][pivoCol];
 	for(int i = pivoCol+1; i < row; i++){
 		if(abs(matrix[i][pivoCol]) > abs(pivo)){
+			cout << "\nTrocando a linha " << i << " por " << pivoCol <<endl;
 			pivo = matrix[i][pivoCol];
 			for(int j = 0; j < col; j++){
 				double aux = matrix[pivoCol][j];
@@ -154,7 +167,7 @@ double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
 }
 
 void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
-	double *dMatrix = new double[row];
+	double **dMatrix = makeMatrix(row, col);
 
 	if(!isSymetric(row, col, matrix))
 		return;
@@ -171,16 +184,19 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 			return;
 		}
 		else{
-			cout << "A matriz é positiva definida...\n";
-			dMatrix[i] = sqrt(matrix[i][i]);
+			dMatrix[i][i] = 1/sqrt(matrix[i][i]);
 			matrix[i][i] = 1;
 		}
-		for(int j=i; j<col; j++){
-			matrix[i][j] = 0;
+		for(int j=0; j<col; j++){
+			if(i != j){
+				dMatrix[i][j] = 0;
+				if(i > j)
+					matrix[i][j] = 0;
+			}			
 		}
 	}
 
-	delete []dMatrix;
+	destroyMatrix(row, dMatrix);
 }
 
 bool isSymetric(int row, int col, double **matrix){
