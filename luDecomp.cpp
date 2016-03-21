@@ -168,6 +168,7 @@ double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
 
 void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 	double **dMatrix = makeMatrix(row, col);
+	double *result = new double(row);
 
 	if(!isSymetric(row, col, matrix))
 		return;
@@ -187,16 +188,59 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 			dMatrix[i][i] = 1/sqrt(matrix[i][i]);
 			matrix[i][i] = 1;
 		}
+		// Criando a matriz D^(1/2) e L^T
 		for(int j=0; j<col; j++){
 			if(i != j){
 				dMatrix[i][j] = 0;
-				if(i > j)
+				if(i < j)
 					matrix[i][j] = 0;
 			}			
 		}
 	}
+	double **dLTMatrix = matrixProd(dMatrix, row, col, matrix, row, col);
+	double *resultMatrix = matrixProd(dLTMatrix, row, col, constTerms, row);
+	resultMatrix = matrixProd(dLTMatrix, row, col, resultMatrix, row);
+
+
+
+	
+	printMatrix(row, 0, resultMatrix);
 
 	destroyMatrix(row, dMatrix);
+	destroyMatrix(row, dLTMatrix);
+	delete []resultMatrix;
+}
+
+double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int row2, int col2){
+	if(row2!=col1){	return NULL;	}
+	double **result = makeMatrix(row1, col2);
+	double temp;
+	for( int i(0) ; i<row1 ; i++ ){
+		for( int j(0) ; j<col2 ; j++ ){
+			temp = 0;
+			for( int atual(0) ; atual<row2 ; atual++ ){
+				temp += matriz1[j][atual] * matriz2[atual][i];
+			}
+			result[i][j] = temp;
+		}
+	}
+	return result;
+}
+
+double * matrixProd(double **matriz1, int row1, int col1, double *matriz2, int row2){
+	if(row2!=col1){	return NULL;	}
+	double *result = new double[row1];
+	double temp;
+	for(int i(0) ; i<row1 ; i++ ){
+		for(int j(0) ; j<0 ; j++ ){
+			temp = 0;
+			for(int atual(0) ; atual<row2 ; atual++ ){
+				temp += matriz1[j][atual] * matriz2[atual];
+			}
+			result[i] = temp;
+		}
+	}
+	return result;
 }
 
 bool isSymetric(int row, int col, double **matrix){
