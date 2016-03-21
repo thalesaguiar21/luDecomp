@@ -8,27 +8,25 @@ int main(){
 	float *myConstTerms = new float[ROW];
 	float *result = new float[ROW];
 	
-	myMatrix[0][0] = 3;
-	myMatrix[0][1] = -0.1;
-	myMatrix[0][2] = -0.2;
-	myMatrix[1][0] = 0.1;
-	myMatrix[1][1] = 7;
-	myMatrix[1][2] = -0.3;
-	myMatrix[2][0] = 0.3;
-	myMatrix[2][1] = -0.2;
-	myMatrix[2][2] = 10;
+	myMatrix[0][0] = 4;
+	myMatrix[0][1] = 1;
+	myMatrix[0][2] = -1;
+	myMatrix[1][0] = 2;
+	myMatrix[1][1] = 6;
+	myMatrix[1][2] = -3;
+	myMatrix[2][0] = -1;
+	myMatrix[2][1] = -2;
+	myMatrix[2][2] = 6;
 
-	myConstTerms[0] = 7.85;
-	myConstTerms[1] = -19.3;
-	myConstTerms[2] = 71.4;
+	myConstTerms[0] = 4;
+	myConstTerms[1] = 5;
+	myConstTerms[2] = 3;
 
-	std::cout << "A:\n";
 	printMatrix(ROW, COL, myMatrix);
-	std::cout << "b:\n";
 	printMatrix(0, COL, myConstTerms);
 	result = fatLU(ROW, COL, myMatrix, myConstTerms);
-
 	printMatrix(0, COL, result);
+	//choleskyDecomp(ROW, COL, myMatrix, myConstTerms);
 
 
 	destroyMatrix(ROW, myMatrix);

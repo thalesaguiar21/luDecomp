@@ -73,7 +73,7 @@ void printMatrix(int row, int col, float *matrix){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
 	}
-	cout << "\nA matrix dos termos independentes é...\n";
+	cout << "\nA matriz dos termos independentes é...\n";
 	if(row == 0 && col > 0){
 		for(int j = 0; j < col; j++){
 			cout << std::setw(12) << matrix[j] << endl;
@@ -167,9 +167,11 @@ void choleskyDecomp(int row,int col, float **matrix, float *constTerms){
 	for(int i=0; i<row; i++){
 		if(matrix[i][i] < 0){
 			cout << "\nA matriz não é positiva definida...\n";
+			delete []dMatrix;
 			return;
 		}
 		else{
+			cout << "A matriz é positiva definida...\n";
 			dMatrix[i] = sqrt(matrix[i][i]);
 			matrix[i][i] = 1;
 		}
