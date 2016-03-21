@@ -89,11 +89,23 @@ void printMatrix(int row, int col, float *matrix){
 	}
 }
 
-float abs(float number){
-	if(number < 0)
-		return -number;
-	else
-		return number;
+float * fatLU(int row, int col, float **matrix, float *constTerms){
+	luDecomp(row, col, matrix, constTerms);
+	float *result = PRsubstitution(row, col, matrix, constTerms);
+	return result;
+}
+
+void luDecomp(int row, int col, float **matrix, float *constTerms){
+	cout <<  "\nDecompondo a matriz em fatores LU...\n";
+	for(int i = 0; i+1 < row; i++){
+		partPivo(row, col, matrix, i);
+		for(int j = i; j+1<col; j++){
+			float factor = (matrix[j+1][i] / matrix[i][i]);
+			for(int k=j; k<col; k++)
+				matrix[j+1][k] -= factor * matrix[i][k];
+			matrix[j+1][i] = factor;
+		}
+	}
 }
 
 void partPivo(int row, int col, float **matrix, int pivoCol){
@@ -111,47 +123,62 @@ void partPivo(int row, int col, float **matrix, int pivoCol){
 	}
 }
 
-void luDecomp(int row, int col, float **matrix, float *constTerms){
-	cout <<  "\nDecompondo a matriz em fatores LU...\n";
-	for(int i = 0; i+1 < row; i++){
-		partPivo(row, col, matrix, i);
-		for(int j = i; j+1<col; j++){
-			float factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k=j; k<col; k++)
-				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = factor;
-			constTerms[j+1] -= factor * constTerms[i];
-		}
-	}
+float abs(float number){
+	if(number < 0)
+		return -number;
+	else
+		return number;
 }
 
-void choleskyDecomp(int row,int col, float **matrix){
-	//float **lMatrix = makeMatrix(row, col);
-	for(int k = 0; k < row; k++){
-		for(int i = 0; i < k-1; i++){
-			float sum = 0;
-			for(int j = 0;j < i-1; j++)
-				sum += matrix[i][j] * matrix[k][j];
-			matrix[k][i] = (matrix[k][i] - sum) / matrix[i][i];
-		}
-		float sum = 0;
-		for(int j = 0; j < k-1; j++){
-			sum += matrix[k][j] * matrix[k][j];
-		}
-		matrix[k][k] = sqrt(matrix[k][k] - sum);
-	}
-}
-
-float * regressiveSub(int row, int col, float **matrix, float *constTerms){
+float * PRsubstitution(int row, int col, float **matrix, float *constTerms){
 	float *result = new float[row];
+
+	cout << "\nExecutando a substituição progressiva...\n";
+	for(int i = 1; i < row; i++){
+		float sum = constTerms[i];
+		for(int j = 0; j < i-1; j++)
+			sum -= matrix[i][j] * constTerms[j];
+		constTerms[i] = sum;
+	}
+
+	cout << "\nExecutando a substituição regrssiva...\n";
 	result[row-1] = (float)(constTerms[col-1]/matrix[row-1][col-1]);
 	for(int i = row-1; i >= 0; i--){
 		float sum = 0;
-		for(int j = i+1; j <= col; j++)
+		for(int j = i+1; j < col; j++)
 			sum += matrix[i][j] * result[j];
 		result[i] = (constTerms[i] - sum) / matrix[i][i];
 	}
+
 	return result;
+}
+
+void choleskyDecomp(int row,int col, float **matrix, float *constTerms){
+	float *dMatrix = new float[row];
+
+	if(!isSymetric(row, col, matrix))
+		return;
+
+	luDecomp(row, col, matrix, constTerms);
+
+	printMatrix(row, col, matrix);
+
+	cout << "\nVerificando se a matriz é positiva definida...\n";
+	for(int i=0; i<row; i++){
+		if(matrix[i][i] < 0){
+			cout << "\nA matriz não é positiva definida...\n";
+			return;
+		}
+		else{
+			dMatrix[i] = sqrt(matrix[i][i]);
+			matrix[i][i] = 1;
+		}
+		for(int j=i; j<col; j++){
+			matrix[i][j] = 0;
+		}
+	}
+
+	delete []dMatrix;
 }
 
 bool isSymetric(int row, int col, float **matrix){
@@ -172,11 +199,6 @@ bool isSymetric(int row, int col, float **matrix){
 	}
 	cout << "\nA matriz é simétrica...\n";
 	return true;
-}
-
-float * fatLU(int row, int col, float **matrix, float *constTerms){
-	luDecomp(row, col, matrix, constTerms);
-	return regressiveSub(row, col, matrix, constTerms);
 }
 
 void copyVector( int row, float *x, float *y){

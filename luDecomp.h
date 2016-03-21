@@ -19,7 +19,7 @@ void destroyMatrix(int row, float **matrix);
 /* Prints the given matrix line by line. */
 void printMatrix(int row, int col, float **matrix);
 
-
+/* Prints a a vector */
 void printMatrix(int row, int col, float *matrix);
 
 
@@ -31,17 +31,22 @@ float abs(float number);
 void partPivo(int row, int col, float **matrix, int pivoCol);
 
 
-/* Makes a regressive substitution considering **matrix and *constTerms.
-   Note that the snumber of lines of *constTerms must be the same of **matrix*/
-float * regressiveSub(int row, int col, float **matrix, float *constTerms);
-
-void choleskyDecomp(int row,int col, float **matrix);
+void choleskyDecomp(int row,int col, float **matrix, float *constTerms);
 
 
 /* Make a LU decomposition on the **matrix and *constTermas.
    The L matrix is stored under the main diagonal of **matrix.*/
 void luDecomp(int row, int col, float **matrix, float *constTerms);
 
+
+/* Execute a progressive and regressive substitution with the **matrix and the *constTerms
+   Note that *constTerms and **matrix must have the same number of lines.
+   Returns the result of the system */
+float * PRsubstitution(int row, int col, float **matrix, float *constTerms);
+
+
+/* Make a LU decomposition on the **matrix and *constTerms. And returns
+   the result of the system.*/
 float * fatLU(int row, int col, float **matrix, float *constTerms);
 
 

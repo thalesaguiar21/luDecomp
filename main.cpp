@@ -7,49 +7,33 @@ int main(){
 	float **myMatrix = makeMatrix(ROW, COL);
 	float *myConstTerms = new float[ROW];
 	float *result = new float[ROW];
-	/*
-	myMatrix[0][0] = 6;
-	myMatrix[0][1] = 15;
-	myMatrix[0][2] = 55;
-	myMatrix[1][0] = 15;
-	myMatrix[1][1] = 55;
-	myMatrix[1][2] = 225;
-	myMatrix[2][0] = 55;
-	myMatrix[2][1] = 225;
-	myMatrix[2][2] = 979;
+	
+	myMatrix[0][0] = 3;
+	myMatrix[0][1] = -0.1;
+	myMatrix[0][2] = -0.2;
+	myMatrix[1][0] = 0.1;
+	myMatrix[1][1] = 7;
+	myMatrix[1][2] = -0.3;
+	myMatrix[2][0] = 0.3;
+	myMatrix[2][1] = -0.2;
+	myMatrix[2][2] = 10;
 
 	myConstTerms[0] = 7.85;
 	myConstTerms[1] = -19.3;
-	myConstTerms[2] = 71.4;*/
-
-
-	myMatrix[0][0] = 8;
-	myMatrix[0][1] = 2;
-	myMatrix[0][2] = 2;
-	myMatrix[1][0] = 2;
-	myMatrix[1][1] = 8;
-	myMatrix[1][2] = 2;
-	myMatrix[2][0] = 2;
-	myMatrix[2][1] = 2;
-	myMatrix[2][2] = 8;
-
-
-	myConstTerms[0] = 20;
-	myConstTerms[1] = 26;
-	myConstTerms[2] = 38;
+	myConstTerms[2] = 71.4;
 
 	std::cout << "A:\n";
-	printMatrix(ROW, COL,myMatrix);
+	printMatrix(ROW, COL, myMatrix);
 	std::cout << "b:\n";
 	printMatrix(0, COL, myConstTerms);
-	//choleskyDecomp(ROW, COL, myMatrix);
-	//rintMatrix(ROW, COL, myMatrix);
+	result = fatLU(ROW, COL, myMatrix, myConstTerms);
 
-	gausSeidel(ROW, COL, myMatrix, result, myConstTerms, 0.001);
-	std::cout << "x:\n";
 	printMatrix(0, COL, result);
 
+
 	destroyMatrix(ROW, myMatrix);
+	std::cout << "\nDestruindo o resto das coisas...\n";
 	delete []myConstTerms;
+	delete []result;
 	return 0;
 }
