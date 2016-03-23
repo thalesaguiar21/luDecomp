@@ -199,9 +199,7 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 		return;
 
 	luDecomp(row, col, matrix, constTerms);
-
-	printMatrix(row, col, matrix);
-
+	
 	cout << "\nVerificando se a matriz é positiva definida...\n";
 	for(int i=0; i<row; i++){
 		if(matrix[i][i] < 0){
