@@ -57,7 +57,7 @@ double * PRsubstitution(int row, int col, double **matrix, double *constTerms);
 
 /* Make a LU decomposition on the **matrix and *constTerms. And returns
    the result of the system.*/
-double * fatLU(int row, int col, double **matrix, double *constTerms);
+void fatLU(int row, int col, double **matrix, double *constTerms);
 
 /**/
 double gausSeidel(int row,int col, double **matrix, double *x, double* b, double erro);

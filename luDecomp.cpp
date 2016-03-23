@@ -48,10 +48,10 @@ void initMatrix(int row, int col, double **matrix, double option){
 }
 
 void destroyMatrix(int row, double **matrix){
-	cout << "\nDestruindo a matriz...\n";
 	for(int i = 0; i < row; i++)
 		delete []matrix[i];
 	delete matrix;
+	cout << "\nA matriz foi destruida...\n";
 }
 
 void printMatrix(int row, int col, double **matrix){
@@ -59,7 +59,6 @@ void printMatrix(int row, int col, double **matrix){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
 	}
-	cout << "\nA matrix é...\n";
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
 			cout << std::setw(18) << matrix[i][j];
@@ -73,7 +72,6 @@ void printMatrix(int row, int col, double *matrix){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
 	}
-	cout << "\nA matriz dos termos independentes é...\n";
 	if(row == 0 && col > 0){
 		for(int j = 0; j < col; j++){
 			cout << std::setw(18) << matrix[j] << endl;
@@ -89,10 +87,19 @@ void printMatrix(int row, int col, double *matrix){
 	}
 }
 
-double * fatLU(int row, int col, double **matrix, double *constTerms){
+void fatLU(int row, int col, double **matrix, double *constTerms){
 	luDecompPivo(row, col, matrix, constTerms);
+	cout << "\nVerificando se o sistema é determinado...\n";
+	for(int i = 0; i < col; i++){
+		if(matrix[i][i] == 0){
+			cout << "\nO sistema não é determinado...\n";
+			return;
+		}
+	}
 	double *result = PRsubstitution(row, col, matrix, constTerms);
-	return result;
+	cout << "\nA solução do sistema é:\n";
+	printMatrix(0, col, result);
+	delete []result;
 }
 
 void luDecomp(int row, int col, double **matrix, double *constTerms){
