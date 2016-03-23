@@ -96,7 +96,8 @@ void fatLU(int row, int col, double **matrix, double *constTerms){
 			return;
 		}
 	}
-	double *result = PRsubstitution(row, col, matrix, constTerms);
+	progresSub(row, col, matrix, constTerms);
+	double *result = regresSub(row, col, matrix, constTerms);
 	cout << "\nA solução do sistema é:\n";
 	printMatrix(0, col, result);
 	delete []result;
@@ -148,6 +149,30 @@ double abs(double number){
 		return -number;
 	else
 		return number;
+}
+
+void progresSub(int row, int col, double **matrix, double *constTerms){
+	cout << "\nExecutando a substituição progressiva...\n";
+	for(int i = 1; i < row; i++){
+		double sum = constTerms[i];
+		for(int j = 0; j < i-1; j++)
+			sum -= matrix[i][j] * constTerms[j];
+		constTerms[i] = sum;
+	}
+}
+
+double * regresSub(int row, int col, double **matrix, double *constTerms){
+	double *result = new double[row];
+	cout << "\nExecutando a substituição regrssiva...\n";
+	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
+	for(int i = row-1; i >= 0; i--){
+		double sum = 0;
+		for(int j = i+1; j < col; j++)
+			sum += matrix[i][j] * result[j];
+		result[i] = (constTerms[i] - sum) / matrix[i][i];
+	}
+
+	return result;
 }
 
 double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
