@@ -54,9 +54,8 @@ void luDecompPivo(int row, int col, double **matrix, double *constTerms);
    Returns the result of the system */
 double * PRsubstitution(int row, int col, double **matrix, double *constTerms);
 
-
-/* Make a LU decomposition on the **matrix and *constTerms. And returns
-   the result of the system.*/
+/* Make a LU decomposition on the **matrix and *constTerms. This function
+   will test the system. */
 void fatLU(int row, int col, double **matrix, double *constTerms);
 
 /**/
