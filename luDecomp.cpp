@@ -194,10 +194,8 @@ double * regresSub(int row, int col, double **matrix, double *constTerms){
 void choleskyDecomp(int row, int col, double **matrix, double *constTerms){
 	double **dMatrix = makeMatrix(row, col);
 	double *result = new double(row);
-
 	if(!isSymetric(row, col, matrix))
 		return;
-
 	luDecomp(row, col, matrix, constTerms);
 
 
@@ -234,7 +232,7 @@ void choleskyDecomp(int row, int col, double **matrix, double *constTerms){
 }
 
 double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int row2, int col2){
-	if(row2!=col1){	return NULL;	}
+	if(row2!=col1){	return NULL; }
 	double **result = makeMatrix(row1, col2);
 	double temp;
 	for( int i(0) ; i<row1 ; i++ ){
@@ -243,7 +241,7 @@ double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int
 			for( int atual(0) ; atual<row2 ; atual++ ){
 				temp += matriz1[j][atual] * matriz2[atual][i];
 			}
-			result[i][j] = temp;
+			result[j][i] = temp;
 		}
 	}
 	return result;
@@ -254,10 +252,10 @@ double * matrixProd(double **matriz1, int row1, int col1, double *matriz2, int r
 	double *result = new double[row1];
 	double temp;
 	for(int i(0) ; i<row1 ; i++ ){
-		for(int j(0) ; j<0 ; j++ ){
+		for(int j(0) ; j<1 ; j++ ){
 			temp = 0;
 			for(int atual(0) ; atual<row2 ; atual++ ){
-				temp += matriz1[j][atual] * matriz2[atual];
+				temp += matriz1[i][atual] * matriz2[atual];
 			}
 			result[i] = temp;
 		}

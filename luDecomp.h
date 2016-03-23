@@ -15,7 +15,6 @@ void initMatrix(int row, int col, double **matrix, double option = 0);
 /* Free the space of the given matrix */
 void destroyMatrix(int row, double **matrix);
 
-
 /* Prints the given matrix line by line. */
 void printMatrix(int row, int col, double **matrix);
 
@@ -27,14 +26,11 @@ void printMatrix(int row, int col, double *matrix);
 /* Return a transposed matrix of the given **matrix */
 double ** transposeMatrix(int row, int col, double **matrix);
 
-
 /* Return the absolute value of a double. */
 double abs(double number);
 
-
 /* Makes a partial pivoting on the given matrix at the given col(pivoCol).*/
 void partPivo(int row, int col, double **matrix, int pivoCol);
-
 
 void choleskyDecomp(int row, int col, double **matrix, double *constTerms);
 
@@ -45,7 +41,6 @@ double * matrixProd(double **matriz1, int row1, int col1, double *matriz2, int r
 
 /* Return true if the matrix is symetric, and false otherwise.*/
 bool isSymetric(int row, int col, double **matrix);
-
 
 /* Make a LU decomposition on the **matrix and *constTermas.
    The L matrix is stored under the main diagonal of **matrix.*/

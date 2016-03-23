@@ -8,7 +8,9 @@ int main(){
 	double *myConstTerms = new double[ROW];
 	double *result = new double[ROW];
 	
-	/*myMatrix[0][0] = 3;
+	/*
+	Esse daqui é pra fatoração LU
+	myMatrix[0][0] = 3;
 	myMatrix[0][1] = -0.1;
 	myMatrix[0][2] = -0.2;
 	myMatrix[1][0] = 0.1;
