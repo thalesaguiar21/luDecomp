@@ -19,6 +19,7 @@ void destroyMatrix(int row, double **matrix);
 /* Prints the given matrix line by line. */
 void printMatrix(int row, int col, double **matrix);
 
+
 /* Prints a a vector */
 void printMatrix(int row, int col, double *matrix);
 
@@ -37,6 +38,7 @@ double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int
 
 double * matrixProd(double **matriz1, int row1, int col1, double *matriz2, int row2);
 
+
 /* Return true if the matrix is symetric, and false otherwise.*/
 bool isSymetric(int row, int col, double **matrix);
 
@@ -45,24 +47,35 @@ bool isSymetric(int row, int col, double **matrix);
    The L matrix is stored under the main diagonal of **matrix.*/
 void luDecomp(int row, int col, double **matrix, double *constTerms);
 
+
 /* Make a LU decomposition with partial pivoting on the **matrix and *constTermas.
    The L matrix is stored under the main diagonal of **matrix.*/
 void luDecompPivo(int row, int col, double **matrix, double *constTerms);
 
-/* Execute a progressive and regressive substitution with the **matrix and the *constTerms
+
+/* Execute a progressive substitution with the **matrix and the *constTerms
+   Note that *constTerms and **matrix must have the same number of lines. */
+void progresSub(int row, int col, double **matrix, double *constTerms);
+
+
+/* Execute a regressive substitution with the **matrix and the *constTerms
    Note that *constTerms and **matrix must have the same number of lines.
    Returns the result of the system */
-double * PRsubstitution(int row, int col, double **matrix, double *constTerms);
+double * regresSub(int row, int col, double **matrix, double *constTerms);
+
 
 /* Make a LU decomposition on the **matrix and *constTerms. This function
    will test the system. */
 void fatLU(int row, int col, double **matrix, double *constTerms);
 
+
 /**/
 double gausSeidel(int row,int col, double **matrix, double *x, double* b, double erro);
 
+
 /* Make a copy of vector x on vector y (theys must have the same size).*/
 void copyVector( int row, double *x, double *y);
+
 
 /* Calculate the norm of vector x.*/
 double norma(int row, double *x);
