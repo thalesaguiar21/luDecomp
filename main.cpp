@@ -38,6 +38,7 @@ int main(){
 
 	printMatrix(ROW, COL, myMatrix);
 	printMatrix(0, COL, myConstTerms);
+
 	fatLU(ROW, COL, myMatrix, myConstTerms);
 	//printMatrix(0, COL, result);
 	//choleskyDecomp(ROW, COL, myMatrix, myConstTerms);

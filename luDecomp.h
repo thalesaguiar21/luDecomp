@@ -24,6 +24,10 @@ void printMatrix(int row, int col, double **matrix);
 void printMatrix(int row, int col, double *matrix);
 
 
+/* Return a transposed matrix of the given **matrix */
+double ** transposeMatrix(int row, int col, double **matrix);
+
+
 /* Return the absolute value of a double. */
 double abs(double number);
 

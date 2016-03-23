@@ -89,6 +89,20 @@ void printMatrix(int row, int col, double *matrix){
 	}
 }
 
+double ** transposeMatrix(int row, int col, double **matrix){
+	if(row < 0 || col < 0)	return NULL;
+
+	double **tMatrix = makeMatrix(col, row);
+	for(int i = 0; i < row; i++){
+		for(int j = 0; j < col; j++){
+			cout << "\nFazendo trocas...\n";
+			tMatrix[i][j] = matrix[j][i];
+		}
+	}
+
+	return tMatrix;
+}
+
 void fatLU(int row, int col, double **matrix, double *constTerms){
 	luDecompPivo(row, col, matrix, constTerms);
 	cout << "\nVerificando se o sistema é determinado...\n";
@@ -177,29 +191,6 @@ double * regresSub(int row, int col, double **matrix, double *constTerms){
 	return result;
 }
 
-double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
-	double *result = new double[row];
-
-	cout << "\nExecutando a substituição progressiva...\n";
-	for(int i = 1; i < row; i++){
-		double sum = constTerms[i];
-		for(int j = 0; j < i-1; j++)
-			sum -= matrix[i][j] * constTerms[j];
-		constTerms[i] = sum;
-	}
-
-	cout << "\nExecutando a substituição regrssiva...\n";
-	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
-	for(int i = row-1; i >= 0; i--){
-		double sum = 0;
-		for(int j = i+1; j < col; j++)
-			sum += matrix[i][j] * result[j];
-		result[i] = (constTerms[i] - sum) / matrix[i][i];
-	}
-
-	return result;
-}
-
 void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 	double **dMatrix = makeMatrix(row, col);
 	double *result = new double(row);
@@ -208,6 +199,8 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 		return;
 
 	luDecomp(row, col, matrix, constTerms);
+
+	printMatrix(row, col, matrix);
 
 	cout << "\nVerificando se a matriz é positiva definida...\n";
 	for(int i=0; i<row; i++){
