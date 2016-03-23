@@ -169,14 +169,9 @@ double * PRsubstitution(int row, int col, double **matrix, double *constTerms){
 double * choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 	double **dMatrix = makeMatrix(row, col);
 	double *result = new double(row);
-
 	if(!isSymetric(row, col, matrix))
 		return NULL;
-
 	luDecomp(row, col, matrix, constTerms);
-
-	printMatrix(row, col, matrix);
-
 	cout << "\nVerificando se a matriz é positiva definida...\n";
 	for(int i=0; i<row; i++){
 		if(matrix[i][i] < 0){
@@ -197,20 +192,8 @@ double * choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 			}			
 		}
 	}
-
-	//printMatrix(row, col, dMatrix);
-	//printMatrix(row, col, matrix);
 	double **dLTMatrix = matrixProd(dMatrix, row, col, matrix, row, col);
-	//printMatrix(row, col, dLTMatrix);
 	double *resultMatrix = matrixProd(dLTMatrix, row, col, constTerms, row);
-	//printMatrix(0, col, resultMatrix);
-	//resultMatrix = matrixProd(dLTMatrix, row, col, resultMatrix, row);
-
-
-
-	
-	//printMatrix(0, col, resultMatrix);
-
 	destroyMatrix(row, dMatrix);
 	destroyMatrix(row, dLTMatrix);
 	return resultMatrix;

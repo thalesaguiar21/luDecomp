@@ -8,7 +8,9 @@ int main(){
 	double *myConstTerms = new double[ROW];
 	double *result = new double[ROW];
 	
-	/*myMatrix[0][0] = 3;
+	/*
+	Esse daqui é pra fatoração LU
+	myMatrix[0][0] = 3;
 	myMatrix[0][1] = -0.1;
 	myMatrix[0][2] = -0.2;
 	myMatrix[1][0] = 0.1;
@@ -22,6 +24,7 @@ int main(){
 	myConstTerms[1] = -19.3;
 	myConstTerms[2] = 71.4;*/
 
+	//Esse daqui é pra fatoração de Cholesky
 	myMatrix[0][0] = 10;
 	myMatrix[0][1] = 20;
 	myMatrix[0][2] = 30;
