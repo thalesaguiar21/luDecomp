@@ -8,7 +8,7 @@ int main(){
 	double *myConstTerms = new double[ROW];
 	double *result = new double[ROW];
 	
-	myMatrix[0][0] = 3;
+	/*myMatrix[0][0] = 3;
 	myMatrix[0][1] = -0.1;
 	myMatrix[0][2] = -0.2;
 	myMatrix[1][0] = 0.1;
@@ -20,27 +20,26 @@ int main(){
 
 	myConstTerms[0] = 7.85;
 	myConstTerms[1] = -19.3;
-	myConstTerms[2] = 71.4;
+	myConstTerms[2] = 71.4;*/
 
-	/*myMatrix[0][0] = 10;
-	myMatrix[0][1] = 20;
-	myMatrix[0][2] = 30;
-	myMatrix[1][0] = 20;
-	myMatrix[1][1] = 45;
-	myMatrix[1][2] = 80;
-	myMatrix[2][0] = 30;
-	myMatrix[2][1] = 80;
-	myMatrix[2][2] = 171;
+	myMatrix[0][0] = 2;
+	myMatrix[0][1] = 2;
+	myMatrix[0][2] = 3;
+	myMatrix[1][0] = 2;
+	myMatrix[1][1] = 4;
+	myMatrix[1][2] = 5;
+	myMatrix[2][0] = 3;
+	myMatrix[2][1] = 5;
+	myMatrix[2][2] = 8;
 
-	myConstTerms[0] = 0;
-	myConstTerms[1] = 15;
-	myConstTerms[2] = 61;*/
+	myConstTerms[0] = 7;
+	myConstTerms[1] = 11;
+	myConstTerms[2] = 16;
 
 	printMatrix(ROW, COL, myMatrix);
 	printMatrix(0, COL, myConstTerms);
 
 	fatLU(ROW, COL, myMatrix, myConstTerms);
-	//printMatrix(0, COL, result);
 	//choleskyDecomp(ROW, COL, myMatrix, myConstTerms);
 
 

@@ -36,7 +36,7 @@ double abs(double number);
 void partPivo(int row, int col, double **matrix, int pivoCol);
 
 
-void choleskyDecomp(int row,int col, double **matrix, double *constTerms);
+void choleskyDecomp(int row, int col, double **matrix, double *constTerms);
 
 double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int row2, int col2);
 

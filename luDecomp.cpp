@@ -95,7 +95,6 @@ double ** transposeMatrix(int row, int col, double **matrix){
 	double **tMatrix = makeMatrix(col, row);
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
-			cout << "\nFazendo trocas...\n";
 			tMatrix[i][j] = matrix[j][i];
 		}
 	}
@@ -124,9 +123,9 @@ void luDecomp(int row, int col, double **matrix, double *constTerms){
 	for(int i = 0; i+1 < row; i++){
 		for(int j = i; j+1 < col; j++){
 			double factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k= j; k < col; k++)
+			for(int k = j; k < col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = -factor;
+			matrix[j+1][i] = factor;
 		}
 	}
 }
@@ -139,7 +138,7 @@ void luDecompPivo(int row, int col, double **matrix, double *constTerms){
 			double factor = (matrix[j+1][i] / matrix[i][i]);
 			for(int k= j; k < col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = -factor;
+			matrix[j+1][i] = factor;
 		}
 	}
 }
@@ -171,7 +170,7 @@ void progresSub(int row, int col, double **matrix, double *constTerms){
 	cout << "\nExecutando a substituição progressiva...\n";
 	for(int i = 1; i < row; i++){
 		double sum = constTerms[i];
-		for(int j = 0; j < i-1; j++)
+		for(int j = 0; j < i; j++)
 			sum -= matrix[i][j] * constTerms[j];
 		constTerms[i] = sum;
 	}
@@ -180,8 +179,9 @@ void progresSub(int row, int col, double **matrix, double *constTerms){
 double * regresSub(int row, int col, double **matrix, double *constTerms){
 	double *result = new double[row];
 	cout << "\nExecutando a substituição regrssiva...\n";
+	//printMatrix(row, col, matrix);
 	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
-	for(int i = row-1; i >= 0; i--){
+	for(int i = row-1; i > -1; i--){
 		double sum = 0;
 		for(int j = i+1; j < col; j++)
 			sum += matrix[i][j] * result[j];
@@ -191,7 +191,7 @@ double * regresSub(int row, int col, double **matrix, double *constTerms){
 	return result;
 }
 
-void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
+void choleskyDecomp(int row, int col, double **matrix, double *constTerms){
 	double **dMatrix = makeMatrix(row, col);
 	double *result = new double(row);
 
@@ -199,39 +199,38 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 		return;
 
 	luDecomp(row, col, matrix, constTerms);
-	
-	cout << "\nVerificando se a matriz é positiva definida...\n";
-	for(int i=0; i<row; i++){
-		if(matrix[i][i] < 0){
-			cout << "\nA matriz não é positiva definida...\n";
-			delete []dMatrix;
-			return;
-		}
-		else{
-			dMatrix[i][i] = 1/sqrt(matrix[i][i]);
-			matrix[i][i] = 1;
-		}
-		// Criando a matriz D^(1/2) e L^T
-		for(int j=0; j<col; j++){
-			if(i != j){
-				dMatrix[i][j] = 0;
-				if(i < j)
-					matrix[i][j] = 0;
-			}			
+
+
+	for(int i = 0; i < row; i++){
+		for(int j = 0; j < col; j++){
+			if(i == j){
+				if(matrix[i][j] < 0){
+					cout << "\nA matriz não é positiva definida...\n";
+					return;
+				}
+				else if(matrix[i][j] == 0){
+					cout << "\nO sistema não é determinado...\n";
+					return;
+				}
+				else
+					matrix[i][j] = 1;
+			}
+			else if(i < j){
+				matrix[i][j] = 0;
+			}
 		}
 	}
-	double **dLTMatrix = matrixProd(dMatrix, row, col, matrix, row, col);
-	double *resultMatrix = matrixProd(dLTMatrix, row, col, constTerms, row);
-	resultMatrix = matrixProd(dLTMatrix, row, col, resultMatrix, row);
 
+	progresSub(row, col, matrix, constTerms);
 
+	double **algumaCoisa = transposeMatrix(row, col, matrix);
 
-	
-	printMatrix(row, 0, resultMatrix);
+	result = regresSub(row, col, algumaCoisa, constTerms);
+
+	printMatrix(0, col, result);
 
 	destroyMatrix(row, dMatrix);
-	destroyMatrix(row, dLTMatrix);
-	delete []resultMatrix;
+	delete []result;
 }
 
 double ** matrixProd(double **matriz1, int row1, int col1, double **matriz2, int row2, int col2){
