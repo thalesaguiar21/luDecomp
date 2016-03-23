@@ -55,6 +55,7 @@ void destroyMatrix(int row, double **matrix){
 }
 
 void printMatrix(int row, int col, double **matrix){
+	cout << endl;
 	if(row < 0 || col < 0){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
@@ -68,6 +69,7 @@ void printMatrix(int row, int col, double **matrix){
 }
 
 void printMatrix(int row, int col, double *matrix){
+	cout << endl;
 	if(row < 0 || col < 0){
 		cout << "\nAs dimensões da matriz devem ser positivas...\n";
 		return;
@@ -122,7 +124,7 @@ void luDecompPivo(int row, int col, double **matrix, double *constTerms){
 			double factor = (matrix[j+1][i] / matrix[i][i]);
 			for(int k= j; k < col; k++)
 				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = factor;
+			matrix[j+1][i] = -factor;
 		}
 	}
 }
@@ -181,8 +183,6 @@ void choleskyDecomp(int row,int col, double **matrix, double *constTerms){
 		return;
 
 	luDecomp(row, col, matrix, constTerms);
-
-	printMatrix(row, col, matrix);
 
 	cout << "\nVerificando se a matriz é positiva definida...\n";
 	for(int i=0; i<row; i++){
