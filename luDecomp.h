@@ -44,17 +44,12 @@ bool isSymetric(int row, int col, double **matrix);
 
 /* Make a LU decomposition on the **matrix and *constTermas.
    The L matrix is stored under the main diagonal of **matrix.*/
-void luDecomp(int row, int col, double **matrix, double *constTerms);
-
-
-/* Make a LU decomposition with partial pivoting on the **matrix and *constTermas.
-   The L matrix is stored under the main diagonal of **matrix.*/
-void luDecompPivo(int row, int col, double **matrix, double *constTerms);
+void luDecomp(int row, int col, double **matrix, double *constTerms, bool doPivoting = false);
 
 
 /* Execute a progressive substitution with the **matrix and the *constTerms
    Note that *constTerms and **matrix must have the same number of lines. */
-double * progresSub(int row, int col, double **matrix, double *constTerms);
+void progresSub(int row, int col, double **matrix, double *constTerms);
 
 
 /* Execute a regressive substitution with the **matrix and the *constTerms

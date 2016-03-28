@@ -103,7 +103,7 @@ double ** transposeMatrix(int row, int col, double **matrix){
 }
 
 void fatLU(int row, int col, double **matrix, double *constTerms){
-	luDecompPivo(row, col, matrix, constTerms);
+	luDecomp(row, col, matrix, constTerms, true);
 	cout << "\nVerificando se o sistema é determinado...\n";
 	for(int i = 0; i < col; i++){
 		if(matrix[i][i] == 0){
@@ -111,36 +111,25 @@ void fatLU(int row, int col, double **matrix, double *constTerms){
 			return;
 		}
 	}
-	double *result2 = progresSub(row, col, matrix, constTerms);
+	progresSub(row, col, matrix, constTerms);
 	double *result = regresSub(row, col, matrix, constTerms);
 	cout << "\nA solução do sistema é:\n";
 	printMatrix(0, col, result);
 	delete []result;
-	delete []result2;
 }
 
-void luDecomp(int row, int col, double **matrix, double *constTerms){
+void luDecomp(int row, int col, double **matrix, double *constTerms, bool doPivoting){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
-	for(int i = 0; i+1 < row; i++){
-		for(int j = i; j+1 < col; j++){
-			double factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k = j; k < col; k++)
-				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = factor;
+	for(int k = 0; k < row-1; k++){
+		if(doPivoting = true)	partPivo(row, col, matrix, k);
+		for(int i = k+1; i < col; i++){
+			double factor = -(matrix[i][k] / matrix[k][k]);
+			for(int j = k+1; j < col; j++){
+				matrix[i][j] += factor * matrix[k][j];
+			}
+			matrix[i][k] = factor;
 		}
-	}
-}
-
-void luDecompPivo(int row, int col, double **matrix, double *constTerms){
-	cout <<  "\nDecompondo a matriz em fatores LU...\n";
-	for(int i = 0; i+1 < row; i++){
-		partPivo(row, col, matrix, i);
-		for(int j = i; j+1 < col; j++){
-			double factor = (matrix[j+1][i] / matrix[i][i]);
-			for(int k= j; k < col; k++)
-				matrix[j+1][k] -= factor * matrix[i][k];
-			matrix[j+1][i] = factor;
-		}
+		printMatrix(row, col, matrix);
 	}
 }
 
@@ -167,32 +156,27 @@ double abs(double number){
 		return number;
 }
 
-double * progresSub(int row, int col, double **matrix, double *constTerms){
+void progresSub(int row, int col, double **matrix, double *constTerms){
 	cout << "\nExecutando a substituição progressiva...\n";
-	double *result = new double[row];
-	int i = 0;
-	int j = 0;
-	for (i = 0; i < row; i++){
-		result[i] = constTerms[i];
-		for (j = 0; j < i; j++){
-			result[i] -= matrix[i][j] * result[j];
-		}
-		result[i] /= matrix[i][i];
+	for(int i = 0; i < row; i++){
+		double sum = constTerms[i];
+		for(int j = 0; j < i; j++)
+			sum -= matrix[i][j] * constTerms[j];
+		constTerms[i] = sum;
 	}
-	return result;
 }
 
 double * regresSub(int row, int col, double **matrix, double *constTerms){
 	double *result = new double[row];
-	int i = 0;
-	int j = 0;
-	for (i = row - 1; i >= 0; i--){
-		result[i] = constTerms[i];
-		for (j = i + 1; j < col; j++)	{
-			result[i] -= matrix[i][j] * result[j];
-		}
-		result[i] /= matrix[i][i];
+	cout << "\nExecutando a substituição regrssiva...\n";
+	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
+	for(int i = row-1; i > -1; i--){
+		double sum = 0;
+		for(int j = i+1; j < col; j++)
+			sum += matrix[i][j] * result[j];
+		result[i] = (constTerms[i] - sum) / matrix[i][i];
 	}
+
 	return result;
 }
 

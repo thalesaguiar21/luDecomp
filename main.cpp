@@ -34,9 +34,9 @@ int main(){
 	myMatrix[2][1] = 1;
 	myMatrix[2][2] = 1;
 
-	myConstTerms[0] = 0;
-	myConstTerms[1] = 7;
-	myConstTerms[2] = 4;
+	myConstTerms[0] = 4;
+	myConstTerms[1] = 6;
+	myConstTerms[2] = 0;
 
 	printMatrix(ROW, COL, myMatrix);
 	printMatrix(0, COL, myConstTerms);
