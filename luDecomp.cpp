@@ -129,7 +129,6 @@ void luDecomp(int row, int col, double **matrix, double *constTerms, bool doPivo
 			}
 			matrix[i][k] = factor;
 		}
-		printMatrix(row, col, matrix);
 	}
 }
 
@@ -138,7 +137,7 @@ void partPivo(int row, int col, double **matrix, int pivoCol){
 	double pivo = matrix[pivoCol][pivoCol];
 	for(int i = pivoCol+1; i < row; i++){
 		if(abs(matrix[i][pivoCol]) > abs(pivo)){
-			cout << "\nTrocando a linha " << i << " por " << pivoCol <<endl;
+			cout << "\nTrocando a linha " << i + 1 << " pela linha " << pivoCol + 1 <<endl;
 			pivo = matrix[i][pivoCol];
 			for(int j = 0; j < col; j++){
 				double aux = matrix[pivoCol][j];
