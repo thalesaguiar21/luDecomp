@@ -161,7 +161,7 @@ void progresSub(int row, int col, double **matrix, double *constTerms){
 	for(int i = 0; i < row; i++){
 		double sum = constTerms[i];
 		for(int j = 0; j < i; j++)
-			sum -= matrix[i][j] * constTerms[j];
+			sum += matrix[i][j] * constTerms[j];
 		constTerms[i] = sum;
 	}
 }
@@ -176,7 +176,6 @@ double * regresSub(int row, int col, double **matrix, double *constTerms){
 			sum += matrix[i][j] * result[j];
 		result[i] = (constTerms[i] - sum) / matrix[i][i];
 	}
-
 	return result;
 }
 
