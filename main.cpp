@@ -9,7 +9,7 @@ int main(){
 	double *result = new double[ROW];
 	
 	
-	//Esse daqui é pra fatoração LU
+	/*//Esse daqui é pra fatoração LU
 	myMatrix[0][0] = 3;
 	myMatrix[0][1] = -0.1;
 	myMatrix[0][2] = -0.2;
@@ -22,9 +22,9 @@ int main(){
 
 	myConstTerms[0] = 7.85;
 	myConstTerms[1] = -19.3;
-	myConstTerms[2] = 71.4;
+	myConstTerms[2] = 71.4;*/
 
-	/*myMatrix[0][0] = 2;
+	myMatrix[0][0] = 2;
 	myMatrix[0][1] = 3;
 	myMatrix[0][2] = -1;
 	myMatrix[1][0] = 4;
@@ -36,7 +36,7 @@ int main(){
 
 	myConstTerms[0] = 0;
 	myConstTerms[1] = 7;
-	myConstTerms[2] = 4;*/
+	myConstTerms[2] = 4;
 
 	printMatrix(ROW, COL, myMatrix);
 	printMatrix(0, COL, myConstTerms);

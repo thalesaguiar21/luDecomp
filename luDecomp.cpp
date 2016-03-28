@@ -111,11 +111,12 @@ void fatLU(int row, int col, double **matrix, double *constTerms){
 			return;
 		}
 	}
-	progresSub(row, col, matrix, constTerms);
+	double *result2 = progresSub(row, col, matrix, constTerms);
 	double *result = regresSub(row, col, matrix, constTerms);
 	cout << "\nA solução do sistema é:\n";
 	printMatrix(0, col, result);
 	delete []result;
+	delete []result2;
 }
 
 void luDecomp(int row, int col, double **matrix, double *constTerms){
@@ -166,14 +167,19 @@ double abs(double number){
 		return number;
 }
 
-void progresSub(int row, int col, double **matrix, double *constTerms){
+double * progresSub(int row, int col, double **matrix, double *constTerms){
 	cout << "\nExecutando a substituição progressiva...\n";
-	for(int i = 1; i < row; i++){
-		double sum = constTerms[i];
-		for(int j = 0; j < i; j++)
-			sum -= matrix[i][j] * constTerms[j];
-		constTerms[i] = sum;
+	double *result = new double[row];
+	int i = 0;
+	int j = 0;
+	for (i = 0; i < row; i++){
+		result[i] = constTerms[i];
+		for (j = 0; j < i; j++){
+			result[i] -= matrix[i][j] * result[j];
+		}
+		result[i] /= matrix[i][i];
 	}
+	return result;
 }
 
 double * regresSub(int row, int col, double **matrix, double *constTerms){

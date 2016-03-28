@@ -54,7 +54,7 @@ void luDecompPivo(int row, int col, double **matrix, double *constTerms);
 
 /* Execute a progressive substitution with the **matrix and the *constTerms
    Note that *constTerms and **matrix must have the same number of lines. */
-void progresSub(int row, int col, double **matrix, double *constTerms);
+double * progresSub(int row, int col, double **matrix, double *constTerms);
 
 
 /* Execute a regressive substitution with the **matrix and the *constTerms
