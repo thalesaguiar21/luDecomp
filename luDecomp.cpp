@@ -178,16 +178,15 @@ void progresSub(int row, int col, double **matrix, double *constTerms){
 
 double * regresSub(int row, int col, double **matrix, double *constTerms){
 	double *result = new double[row];
-	cout << "\nExecutando a substituição regrssiva...\n";
-	//printMatrix(row, col, matrix);
-	result[row-1] = (double)(constTerms[col-1]/matrix[row-1][col-1]);
-	for(int i = row-1; i > -1; i--){
-		double sum = 0;
-		for(int j = i+1; j < col; j++)
-			sum += matrix[i][j] * result[j];
-		result[i] = (constTerms[i] - sum) / matrix[i][i];
+	int i = 0;
+	int j = 0;
+	for (i = row - 1; i >= 0; i--){
+		result[i] = constTerms[i];
+		for (j = i + 1; j < col; j++)	{
+			result[i] -= matrix[i][j] * result[j];
+		}
+		result[i] /= matrix[i][i];
 	}
-
 	return result;
 }
 
