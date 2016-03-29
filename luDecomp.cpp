@@ -121,13 +121,14 @@ void fatLU(int row, int col, double **matrix, double *constTerms){
 void luDecomp(int row, int col, double **matrix, double *constTerms, bool doPivoting){
 	cout <<  "\nDecompondo a matriz em fatores LU...\n";
 	for(int k = 0; k < row-1; k++){
-		if(doPivoting = true)	partPivo(row, col, matrix, k);
+		if(doPivoting)	partPivo(row, col, matrix, k);
 		for(int i = k+1; i < col; i++){
 			double factor = -(matrix[i][k] / matrix[k][k]);
 			for(int j = k+1; j < col; j++){
 				matrix[i][j] += factor * matrix[k][j];
 			}
 			matrix[i][k] = factor;
+			if(!doPivoting) matrix[i][k] = -factor;
 		}
 	}
 }
@@ -179,12 +180,15 @@ double * regresSub(int row, int col, double **matrix, double *constTerms){
 }
 
 void choleskyDecomp(int row, int col, double **matrix, double *constTerms){
-	double **dMatrix = makeMatrix(row, col);
-	double *result = new double(row);
+	double *dMatrix = new double[row];
+	double *result = new double[row];
+
 	if(!isSymetric(row, col, matrix))
 		return;
-	luDecomp(row, col, matrix, constTerms);
 
+	luDecomp(row, col, matrix, constTerms, false);
+
+	printMatrix(row, col, matrix);
 
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < col; j++){
@@ -197,24 +201,34 @@ void choleskyDecomp(int row, int col, double **matrix, double *constTerms){
 					cout << "\nO sistema não é determinado...\n";
 					return;
 				}
-				else
+				else{
+					dMatrix[i] = 1/sqrt(matrix[i][j]);
 					matrix[i][j] = 1;
+				}
+
+					
 			}
 			else if(i < j){
 				matrix[i][j] = 0;
 			}
 		}
 	}
-
+	//printMatrix(0,col, dMatrix);
 	progresSub(row, col, matrix, constTerms);
 
 	double **algumaCoisa = transposeMatrix(row, col, matrix);
 
+	for(int i = 0; i < row; i++){
+		for(int j = i; j < col; j++){
+			algumaCoisa[i][j] *= dMatrix[i]; 
+		}
+	}
+	//printMatrix(row, col, algumaCoisa);
 	result = regresSub(row, col, algumaCoisa, constTerms);
-
+	cout << "\nO resultado é: \n";
 	printMatrix(0, col, result);
 
-	destroyMatrix(row, dMatrix);
+	delete []dMatrix;
 	delete []result;
 }
 
